@@ -20,9 +20,10 @@
 </div>
 
 <script>
+    let currentDatabaseUrl = ""; 
+
     async function resolveKey() {
         const urlParams = new URLSearchParams(window.location.search);
-        // Hỗ trợ nhận diện cả 'id' viết thường lẫn 'ID' viết hoa để tránh lỗi link
         const anonymousID = urlParams.get('id') || urlParams.get('ID');
         const keyInput = document.getElementById('keyInput');
         
@@ -32,14 +33,13 @@
         }
         
         try {
-            const databaseUrl = `https://keyvip-eeae4-default-rtdb.firebaseio.com/keys/${anonymousID}.json`;
-            const response = await fetch(databaseUrl);
+            currentDatabaseUrl = `https://keyvip-eeae4-default-rtdb.firebaseio.com/keys/${anonymousID}.json`;
+            const response = await fetch(currentDatabaseUrl);
             const data = await response.json();
             
             if (data && data.mapsTo) {
                 keyInput.value = data.mapsTo;
                 keyInput.style.color = "#00f2fe";
-                // TUYỆT ĐỐI KHÔNG XÓA DỮ LIỆU ĐỂ TEST XEM PC HIỆN KEY CHƯA
             } else {
                 keyInput.value = "❌ ID này không tồn tại hoặc đã hết hạn!";
             }
@@ -53,11 +53,19 @@
         if (keyInput.value.startsWith("Key_")) {
             try {
                 await navigator.clipboard.writeText(keyInput.value);
-                alert("🎉 Đã sao chép Key thành công!");
+                alert("🎉 Đã sao chép Key thành công! Hãy quay lại game để kích hoạt.");
+                
+                // Người chơi copy xong mới thực hiện xóa ID trên Firebase để dọn rác
+                if (currentDatabaseUrl !== "") {
+                    fetch(currentDatabaseUrl, { method: 'DELETE' });
+                }
             } catch (err) {
                 keyInput.select();
                 document.execCommand('copy');
                 alert("🎉 Đã sao chép Key thành công!");
+                if (currentDatabaseUrl !== "") {
+                    fetch(currentDatabaseUrl, { method: 'DELETE' });
+                }
             }
         } else {
             alert("❌ Không có mã Key hợp lệ để sao chép!");
