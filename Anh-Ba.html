@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HỆ THỐNG XÁC THỰC KEY</title>
+    <title>MEMAYBEOHUB — AUTH SYSTEM</title>
     <script>
         function updateTime() {
             var now = new Date();
@@ -14,23 +14,21 @@
             var month = now.getMonth() + 1;
             var year = now.getFullYear();
 
-            // Định dạng 2 chữ số
             hours = (hours < 10 ? "0" : "") + hours;
             minutes = (minutes < 10 ? "0" : "") + minutes;
             seconds = (seconds < 10 ? "0" : "") + seconds;
 
-            // Đồng hồ tăng liên tục theo thời gian thực mỗi giây
             var timeString = hours + ":" + minutes + ":" + seconds;
             document.getElementById("clock").innerHTML = timeString;
 
             var dateString = `Hôm nay là ngày ${day}/${month}/${year}`;
             document.getElementById("dateDisplay").innerHTML = dateString;
-            document.title = `Key Ngày ${day}/${month}/${year} Là`;
+            document.title = `Memaybeohub Key — Ngày ${day}/${month}/${year}`;
 
-            // Gọi lại hàm sau đúng 1 giây để tăng thời gian tiếp tục
             setTimeout(updateTime, 1000);
         }
 
+        // TỰ ĐỘNG BÓC TÁCH MÃ KEY TỪ LINK4M TRUYỀN VỀ QUA URL
         function getQueryParam() {
             const urlParams = new URLSearchParams(window.location.search);
             const key = urlParams.get('ma');
@@ -39,6 +37,7 @@
                 keyInput.value = key;
             } else {
                 keyInput.value = 'Không tìm thấy mã Key!';
+                keyInput.style.color = '#ef4444'; // Đổi sang màu đỏ nếu lỗi
             }
         }
 
@@ -60,13 +59,13 @@
             const musicButton = document.getElementById('musicButton');
 
             if (music.paused) {
-                music.play();
-                musicButton.textContent = '⏸ Tạm Dừng Nhạc';
-                musicButton.style.background = 'linear-gradient(45deg, #ef4444, #b91c1c)';
+                music.play().catch(function(error) { console.log("Music play blocked by browser setup."); });
+                musicButton.innerHTML = '<span>⏸</span> Tạm Dừng Nhạc';
+                musicButton.style.background = 'linear-gradient(135deg, #ef4444, #991b1b)';
             } else {
                 music.pause();
-                musicButton.textContent = '🎵 Phát Nhạc Nền';
-                musicButton.style.background = 'linear-gradient(45deg, #a855f7, #6366f1)';
+                musicButton.innerHTML = '<span>🎵</span> Phát Nhạc Nền';
+                musicButton.style.background = 'linear-gradient(135deg, #8b5cf6, #4f46e5)';
             }
         }
 
@@ -76,16 +75,18 @@
         };
     </script>
     <style>
-        /* Ép toàn bộ giao diện về màu tối đen sâu, triệt tiêu sắc trắng */
         * {
             box-sizing: border-box;
-            color: #e5e7eb; /* Mặc định chữ xám sáng Cyberpunk */
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: #050409; /* Nền tối tuyệt đối */
-            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #030206; 
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.07) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.05) 0px, transparent 50%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -93,110 +94,112 @@
             overflow: hidden;
         }
 
-        /* Hộp trung tâm đen Gaming */
         .loading-container {
             text-align: center;
-            padding: 30px 25px;
-            background: #0d0b18; 
-            border-radius: 16px;
-            box-shadow: 0 0 35px rgba(0, 0, 0, 0.9);
-            width: 85vw;
-            max-width: 420px;
+            padding: 40px 30px;
+            background: rgba(13, 11, 24, 0.85); 
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            width: 90vw;
+            max-width: 430px;
             position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
-        /* Viền LED Neon chạy vòng quanh tạo độ nổi */
+        /* Vòng phát sáng Neon chuyển động tinh tế */
         .loading-container::before {
             content: '';
             position: absolute;
             top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, #a855f7, #00f2fe, #ff007f, #a855f7);
+            background: linear-gradient(45deg, #8b5cf6, #00f2fe, #ff007f, #8b5cf6);
             background-size: 400%;
             z-index: -1;
-            border-radius: 18px;
-            animation: steam 12s linear infinite;
+            border-radius: 22px;
+            animation: glowMovement 8s linear infinite;
         }
 
-        @keyframes steam {
-            0% { background-position: 0 0; }
-            50% { background-position: 200% 0; }
-            100% { background-position: 0 0; }
+        @keyframes glowMovement {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         h1 {
-            color: #00f2fe !important;
-            font-size: 26px;
+            color: #00f2fe;
+            font-size: 24px;
             font-weight: 800;
-            margin-top: 0;
             margin-bottom: 25px;
-            text-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
             text-transform: uppercase;
         }
 
         .key-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             width: 100%;
         }
 
-        /* Ô nhập liệu: Ép màu nền đen và chữ xanh cực nét, không bị lỗi trắng */
         input {
             text-align: center;
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             margin-bottom: 20px;
-            background-color: #040307 !important;
-            border: 2px solid #a855f7 !important;
-            border-radius: 10px;
-            font-size: 19px;
+            background-color: #050409 !important;
+            border: 2px solid #8b5cf6 !important;
+            border-radius: 12px;
+            font-size: 18px;
+            font-family: 'Courier New', Courier, monospace;
             font-weight: bold;
-            color: #10b981 !important; /* Xanh lá Hacker */
-            text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+            color: #10b981 !important; 
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
             outline: none;
             transition: all 0.3s ease;
         }
 
         input:focus {
             border-color: #00f2fe !important;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
         }
 
-        /* Nút bấm thiết kế bóng bẩy */
         button {
             width: 100%;
             color: #ffffff !important;
-            padding: 13px;
+            padding: 14px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 15px;
             font-weight: 700;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             margin-bottom: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 8px;
+        }
+
+        button span {
+            font-size: 18px;
         }
 
         .btn-copy {
-            background: linear-gradient(45deg, #00f2fe, #4facfe);
-            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+            background: linear-gradient(135deg, #00f2fe, #0072ff);
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.25);
         }
 
         .btn-copy:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.45);
         }
 
         .btn-music {
-            background: linear-gradient(45deg, #a855f7, #6366f1);
-            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+            background: linear-gradient(135deg, #8b5cf6, #4f46e5);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
         }
 
         .btn-music:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
         }
 
         button:active {
@@ -205,32 +208,35 @@
 
         #dateDisplay {
             margin-top: 15px;
-            font-size: 14px;
+            font-size: 13px;
             color: #9ca3af;
+            letter-spacing: 0.5px;
         }
 
         .footer {
             text-align: center;
-            margin-top: 20px;
-            color: #4b5563;
+            margin-top: 25px;
+            color: #6b7280;
             font-size: 13px;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 15px;
+            padding-top: 20px;
         }
 
         .admin-link {
             color: #ff007f !important;
             text-decoration: none;
             font-weight: bold;
+            transition: text-shadow 0.2s;
         }
 
         .admin-link:hover {
-            text-shadow: 0 0 8px rgba(255, 0, 127, 0.7);
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
         }
 
         #clock {
-            color: #eab308 !important; /* Đồng hồ màu vàng rực */
+            color: #eab308 !important; 
             font-weight: bold;
+            text-shadow: 0 0 5px rgba(234, 179, 8, 0.2);
         }
 
         .toast-notification {
@@ -239,16 +245,16 @@
             top: 20px;
             background: #10b981;
             color: white !important;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
-            animation: fadeIn 0.3s ease;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 999;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -262,17 +268,17 @@
     </audio>
 
     <div class="loading-container">
-        <h1>🔑 Hệ Thống Nhận Key</h1>
+        <h1>🔑 MEMAYBEOHUB SYSTEM</h1>
         <div class="key-container">
-            <input type="text" id="keyInput" readonly>
-            <button class="btn-copy" onclick="copyToClipboard()">📋 Sao Chép Mã Key</button>
-            <button id="musicButton" class="btn-music" onclick="toggleMusic()">🎵 Phát Nhạc Nền</button>
+            <input type="text" id="keyInput" readonly value="Đang tải cấu trúc mã...">
+            <button class="btn-copy" onclick="copyToClipboard()"><span>📋</span> Sao Chép Mã Key</button>
+            <button id="musicButton" class="btn-music" onclick="toggleMusic()"><span>🎵</span> Phát Nhạc Nền</button>
         </div>
         <div id="dateDisplay"></div>
         <div class="footer">
             <b>Copyright By 
                 <a href="https://zalo.me/0398342212" target="_blank" class="admin-link">Nguyễn Trọng Nam</a><br>
-                <span style="margin-top: 5px; display: inline-block;">Time: <span id="clock"></span></span>
+                <span style="margin-top: 6px; display: inline-block;">Time Server: <span id="clock"></span></span>
             </b>
         </div>
     </div>
