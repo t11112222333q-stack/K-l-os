@@ -3,285 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMAYBEOHUB — AUTH SYSTEM</title>
-    <script>
-        function updateTime() {
-            var now = new Date();
-            var hours = now.getHours();
-            var minutes = now.getMinutes();
-            var seconds = now.getSeconds();
-            var day = now.getDate();
-            var month = now.getMonth() + 1;
-            var year = now.getFullYear();
-
-            hours = (hours < 10 ? "0" : "") + hours;
-            minutes = (minutes < 10 ? "0" : "") + minutes;
-            seconds = (seconds < 10 ? "0" : "") + seconds;
-
-            var timeString = hours + ":" + minutes + ":" + seconds;
-            document.getElementById("clock").innerHTML = timeString;
-
-            // ĐÃ SỬA: Thay đổi cú pháp $(variable) thành ${variable} chuẩn JavaScript template literals
-            var dateString = `Hôm nay là ngày ${day}/${month}/${year}`;
-            document.getElementById("dateDisplay").innerHTML = dateString;
-            document.title = `Memaybeohub Key — Ngày ${day}/${month}/${year}`;
-
-            setTimeout(updateTime, 1000);
-        }
-
-        // TỰ ĐỘNG BÓC TÁCH MÃ KEY TỪ LINK4M TRUYỀN VỀ QUA URL
-        function getQueryParam() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const key = urlParams.get('ma');
-            const keyInput = document.getElementById('keyInput');
-            if (key) {
-                keyInput.value = key;
-            } else {
-                keyInput.value = 'Không tìm thấy mã Key!';
-                keyInput.style.color = '#ef4444'; // Đổi sang màu đỏ nếu lỗi
-            }
-        }
-
-        function copyToClipboard() {
-            const keyInput = document.getElementById('keyInput');
-            if (keyInput.value && keyInput.value !== 'Không tìm thấy mã Key!') {
-                keyInput.select();
-                keyInput.setSelectionRange(0, 99999);
-                document.execCommand('copy');
-                
-                const notif = document.getElementById('notification');
-                notif.style.display = 'block';
-                setTimeout(() => { notif.style.display = 'none'; }, 2500);
-            }
-        }
-
-        function toggleMusic() {
-            const music = document.getElementById('backgroundMusic');
-            const musicButton = document.getElementById('musicButton');
-
-            if (music.paused) {
-                music.play().catch(function(error) { console.log("Music play blocked by browser setup."); });
-                musicButton.innerHTML = '<span>⏸</span> Tạm Dừng Nhạc';
-                musicButton.style.background = 'linear-gradient(135deg, #ef4444, #991b1b)';
-            } else {
-                music.pause();
-                musicButton.innerHTML = '<span>🎵</span> Phát Nhạc Nền';
-                musicButton.style.background = 'linear-gradient(135deg, #8b5cf6, #4f46e5)';
-            }
-        }
-
-        window.onload = function () {
-            updateTime();
-            getQueryParam();
-        };
-    </script>
+    <title>MEMAYBEOHUB - AUTH SYSTEM</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #030206; 
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.07) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.05) 0px, transparent 50%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            margin: 0;
             overflow: hidden;
         }
-
-        .loading-container {
+        .container {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
-            padding: 40px 30px;
-            background: rgba(13, 11, 24, 0.85); 
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-            width: 90vw;
-            max-width: 430px;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            width: 380px;
         }
-
-        /* Vòng phát sáng Neon chuyển động tinh tế */
-        .loading-container::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, #8b5cf6, #00f2fe, #ff007f, #8b5cf6);
-            background-size: 400%;
-            z-index: -1;
-            border-radius: 22px;
-            animation: glowMovement 8s linear infinite;
-        }
-
-        @keyframes glowMovement {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
         h1 {
-            color: #00f2fe;
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 22px;
+            margin-bottom: 5px;
+            color: #a78bfa;
+            text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+        }
+        .time-display {
+            font-size: 13px;
+            color: #94a3b8;
             margin-bottom: 25px;
-            letter-spacing: 1px;
-            text-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
-            text-transform: uppercase;
         }
-
-        .key-container {
-            width: 100%;
-        }
-
-        input {
-            text-align: center;
-            width: 100%;
-            padding: 16px;
+        .input-box {
+            position: relative;
             margin-bottom: 20px;
-            background-color: #050409 !important;
-            border: 2px solid #8b5cf6 !important;
-            border-radius: 12px;
-            font-size: 18px;
+        }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            background: #020617;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #00f2fe;
             font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-            color: #10b981 !important; 
-            text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+            font-size: 14px;
+            box-sizing: border-box;
+            text-align: center;
             outline: none;
-            transition: all 0.3s ease;
+            transition: 0.3s;
         }
-
         input:focus {
-            border-color: #00f2fe !important;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            border-color: #818cf8;
+            box-shadow: 0 0 10px rgba(129, 140, 248, 0.3);
         }
-
         button {
             width: 100%;
-            color: #ffffff !important;
-            padding: 14px;
+            padding: 12px;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
             cursor: pointer;
-            font-size: 15px;
-            font-weight: 700;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
         }
-
-        button span {
-            font-size: 18px;
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
-
-        .btn-copy {
-            background: linear-gradient(135deg, #00f2fe, #0072ff);
-            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.25);
-        }
-
-        .btn-copy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.45);
-        }
-
-        .btn-music {
-            background: linear-gradient(135deg, #8b5cf6, #4f46e5);
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
-        }
-
-        .btn-music:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
-        }
-
-        button:active {
-            transform: translateY(1px);
-        }
-
-        #dateDisplay {
+        .notif {
             margin-top: 15px;
             font-size: 13px;
-            color: #9ca3af;
-            letter-spacing: 0.5px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 25px;
-            color: #6b7280;
-            font-size: 13px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 20px;
-        }
-
-        .admin-link {
-            color: #ff007f !important;
-            text-decoration: none;
-            font-weight: bold;
-            transition: text-shadow 0.2s;
-        }
-
-        .admin-link:hover {
-            text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
-        }
-
-        #clock {
-            color: #eab308 !important; 
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(234, 179, 8, 0.2);
-        }
-
-        .toast-notification {
+            color: #10b981;
             display: none;
-            position: fixed;
-            top: 20px;
-            background: #10b981;
-            color: white !important;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: bold;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
-            animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 999;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <div id="notification" class="toast-notification">🎉 Đã sao chép mã Key thành công!</div>
-
-    <audio id="backgroundMusic" loop>
-        <source src="https://rr4---sn-npoeens7.googlevideo.com/videoplayback?expire=1738570417&ei=USagZ4Vk6_nE3w-x7KCJBg&ip=172.64.236.154&id=o-AAimGCMhLlnkFgQqbULLm4c5rLQiwpJXAB9aLLiMq4KH&itag=140&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&bui=AY2Et-NhXWJuEA_aAiv4s4CMjS0GNJ5kVy9qweCNCESmMcFo7gwC7u2n02jFCTAEYi17h2MNMEdZl1cQ&spc=9kzgDe0cTB4wLXbrqCENjNXF39FeMaXArlp1tUthP0Mj7BFN6PRwObzbGw&vprv=1&svpuc=1&mime=audio%2Fmp4&ns=ciOnzHLpGKSoPvsrdclhYhoQ&rqh=1&gir=yes&clen=12915678&dur=798.000&lmt=1726163663589433&keepalive=yes&lmw=1&fexp=24350590,24350737,24350827,24350933,24350961,24350977,24350999,24351028,24351059,24351082,51326932,51371294&c=TVHTML5&sefc=1&txp=5432434&n=oOVy0aSPT2m58w&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AJfQdSswRAIgdqeR7ocPNLzfZ8ZpZkVJl9uhPiHnTmW-oIiDy0YosScCIGMbR3y4GUPaOW9VkEYfsnYGZDMJ1_1ub20amE3pVmcd&title=Cari+Pokemon+-+Mit+x+AM+Remix+%E2%9C%AA+Mochi+Entertainment+%7C%7C+Nh%E1%BA%A1c+Hot+Tiktok+Hay+Nh%E1%BA%A5t+2023%23mochi&rm=sn-h5q6l7l&rrc=104,80&req_id=442fafdb2aeca3ee&ipbypass=yes&redirect_counter=2&cm2rm=sn-8qj-2m0e7s&cms_redirect=yes&cmsv=e&met=1738548821,&mh=0l&mip=2001:ee0:4e1d:40f0:9918:bf84:9f64:6e22&mm=29&mn=sn-npoeens7&ms=rdu&mt=1738548536&mv=m&mvi=4&pl=48&rms=rdu,au&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=AGluJ3MwRgIhAPO94cqTh07m1khvJ4OP-lmnxEMqYdMS4DdevPGj-IEbAiEAmoIOxCicTNa-4Z5bebL0gq_d-TwAiwySZjFQUB5sSu8%3D" type="audio/mpeg">
-    </audio>
-
-    <div class="loading-container">
-        <h1>🔑 MEMAYBEOHUB SYSTEM</h1>
-        <div class="key-container">
-            <input type="text" id="keyInput" readonly value="Đang tải cấu trúc mã...">
-            <button class="btn-copy" onclick="copyToClipboard()"><span>📋</span> Sao Chép Mã Key</button>
-            <button id="musicButton" class="btn-music" onclick="toggleMusic()"><span>🎵</span> Phát Nhạc Nền</button>
-        </div>
-        <div id="dateDisplay"></div>
-        <div class="footer">
-            <b>Copyright By 
-                <a href="https://zalo.me/932990165" target="_blank" class="admin-link">tuất Nam ngu</a><br>
-                <span style="margin-top: 6px; display: inline-block;">Time Server: <span id="clock"></span></span>
-            </b>
-        </div>
+<div class="container">
+    <h1>🛡️ MEMAYBEOHUB GATEWAY</h1>
+    <div id="dateDisplay" class="time-display">Đang tải thời gian...</div>
+    
+    <div class="input-box">
+        <input type="text" id="keyInput" readonly value="Đang tìm mã Key...">
     </div>
+    
+    <button onclick="copyToClipboard()">📋 SAO CHÉP MÃ KEY</button>
+    <div id="notification" class="notif">Đã sao chép Key thành công! Hãy vào game và dán.</div>
+</div>
+
+<script>
+    function updateTime() {
+        var now = new Date();
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+        var day = now.getDate().toString().padStart(2, '0');
+        var month = (now.getMonth() + 1).toString().padStart(2, '0');
+        var year = now.getFullYear();
+
+        var dateString = "Hôm nay là ngày " + day + "/" + month + "/" + year + " - " + hours + ":" + minutes + ":" + seconds;
+        document.getElementById("dateDisplay").innerHTML = dateString;
+        setTimeout(updateTime, 1000);
+    }
+
+    // TỰ ĐỘNG BÓC TÁCH MÃ KEY TỪ LINK4M REDIRECT QUA URL (?ma=...)
+    function getQueryParam() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const key = urlParams.get('ma');
+        const keyInput = document.getElementById('keyInput');
+        
+        if (key) {
+            keyInput.value = key;
+            keyInput.style.color = "#00f2fe";
+        } else {
+            keyInput.value = "Không tìm thấy mã Key hợp lệ!";
+            keyInput.style.color = "#ef4444";
+        }
+    }
+
+    function copyToClipboard() {
+        const keyInput = document.getElementById('keyInput');
+        if (keyInput.value && keyInput.value !== "Không tìm thấy mã Key hợp lệ!" && keyInput.value !== "Đang tìm mã Key...") {
+            keyInput.select();
+            keyInput.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            
+            const notif = document.getElementById('notification');
+            notif.style.display = 'block';
+            setTimeout(() => { notif.style.display = 'none'; }, 2500);
+        }
+    }
+
+    window.onload = function() {
+        updateTime();
+        getQueryParam();
+    };
+</script>
+
 </body>
 </html>
